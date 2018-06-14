@@ -1,5 +1,0 @@
-fun hw1(inPut : string) = TextIO.inputAll TextIO.openIn inPut
-
-
-
-val _ = hw1("input.txt")
