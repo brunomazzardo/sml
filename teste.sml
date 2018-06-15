@@ -11,7 +11,9 @@ https://www.chegg.com/homework-help/questions-and-answers/write-program-sml-read
 Repositorio : https://github.com/brunomazzardo/sml
  *)
 
-
+(*
+Leitura de Arquivo
+*)
 fun hw1(inPut : string) =
 let
    val inStream = TextIO.openIn inPut
@@ -19,12 +21,20 @@ in
    TextIO.inputAll inStream
 end
 
-
+(*
+Definicao do tipo block
+*)
 type block = {hash :int , prevHash:int};
 
+
+(*
+funcao que cria a hash baseada na hash antiga, pode ser mudada para levar data em conta
+*)
 fun createHash(prevHash:int) = prevHash * prevHash
 
-
+(*
+funcao que cria a um block baseado no bloco anterior da cadeia
+*)
 fun createBlock(block:block) = ({hash=createHash(#hash block),prevHash=(#hash block)}:block)
 
 
@@ -36,6 +46,10 @@ val newBlock = createBlock(blockTest)
 val a = hw1("input.txt");
 
 
+
+(*
+Proximas linhas envolvem transformar do input de texto para uma lista de block, talvez existam passos que possam ser removidos
+*)
 val aString = String.implode (String.explode a)
 
 val aStringWithoutn =  String.substring (aString,0,((String.size aString)-1))
@@ -54,15 +68,28 @@ fun intFromString s default_i =
 fun parse [] = []
  |  parse (x::xs) = ({hash=(valOf(Int.fromString(List.nth(x,0)))),prevHash=(valOf(Int.fromString(List.nth(x,1))))} : block)  :: parse xs
 
+
 val vamogremio = parse listlist
 
 
+(*
+Teste de acesso a lista, retorna um bloco
+*)
 val hash = List.nth (vamogremio,0)
 
 
+
+(*
+Funcao que valida o bloco
+*)
 fun valida (prevBlock : block ,currentBlock : block) =  (#hash currentBlock) = createHash(#hash prevBlock) andalso (#prevHash currentBlock) = (#hash prevBlock)
 
 
+(*
+Parecido com o List.all, mas precisava passar dois elementos para a funcao,
+entao e uma reimplementacao, ele tambem nao para quando o primeiro da false,
+ possivel otimizacao a ser feita
+*)
 fun validaArray f [] = true
   | validaArray f [x] = true
   | validaArray f (x::y::xs) = f (x,y) andalso validaArray f xs
@@ -70,6 +97,11 @@ fun validaArray f [] = true
 
 val passou =  validaArray valida vamogremio
 
+
+
+(*
+Funcao que adiciona um bloco novo na cadeia, utilizei de um recurso de reversao da lista para poder adicionar no final
+*)
 fun addToChain (blockList : block list) = let
     val lastBlock = List.nth (blockList,((List.length blockList)-1))
     val block = createBlock(lastBlock)
@@ -83,4 +115,4 @@ fun addToChain (blockList : block list) = let
 val newBlockList = addToChain(vamogremio)
 val newBlockList = addToChain(newBlockList)
 val newBlockList = addToChain(newBlockList)
-val passou =  validaArray valida newBlockList
+val passouNovo =  validaArray valida newBlockList
