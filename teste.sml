@@ -6,46 +6,32 @@ in
 end
 
 
-type block = {hash :string , prevHash:string};
+type block = {hash :int , prevHash:int};
 
-
-
-
-val blockTest =  {hash = "1",prevHash = "2"} : block;
+val blockTest =  {hash = 1,prevHash = 1} : block;
 
 
 val a = hw1("input.txt");
 
-val list  = String.explode a;
 
-val element = #"t"
+val aString = String.implode (String.explode a)
 
-val anotheranotherList = element::list;
+val aStringWithoutn =  String.substring (aString,0,((String.size aString)-1))
+
+val list  = String.tokens  (fn c=>c = #";") aStringWithoutn
 
 
-fun valida x  = if x <> 19 then true else false;
-
-fun toInteger  x =  (Char.ord x) - 48;
-
-val newList = List.map toInteger anotheranotherList;
-
-fun aplicaHash  x = x + 4567;
-
-val newList = List.map aplicaHash newList;
-
-val passou = List.all valida newList;
-
-fun saveChainToFile(outPut:string) = let
-    val list  = String.concat (List.map (fn x => (Int.toString x) ^ ";" ) newList)
-    val outStream = TextIO.openOut outPut
-    val _ = TextIO.output (outStream,list)
-    val _ = TextIO.closeOut outStream
-in
- ()
-end
+val listlist = List.map (fn x => (String.tokens (fn c=>c = #",") x )) list
 
 
 
+fun intFromString s default_i =
+    Option.getOpt (Int.fromString s, default_i)
+
+fun parse [] = []
+ |  parse (x::xs) = ({hash=(valOf(Int.fromString(List.nth(x,0)))),prevHash=(valOf(Int.fromString(List.nth(x,1))))} : block)  :: parse xs
+
+val vamogremio = parse listlist
 
 
-val t = saveChainToFile("vem.txt");
+val hash = List.nth (vamogremio,0)
