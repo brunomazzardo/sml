@@ -30,7 +30,7 @@ type block = {hash :int , prevHash:int};
 (*
 funcao que cria a hash baseada na hash antiga, pode ser mudada para levar data em conta
 *)
-fun createHash(prevHash:int) = prevHash * prevHash
+fun createHash(prevHash:int) = prevHash * 2
 
 (*
 funcao que cria a um block baseado no bloco anterior da cadeia
@@ -112,10 +112,17 @@ fun addToChain (blockList : block list) = let
 
 
 
-val newBlockList = addToChain(vamogremio)
-val newBlockList = addToChain(newBlockList)
-val newBlockList = addToChain(newBlockList)
-val passouNovo =  validaArray valida newBlockList
+
+val newList = addToChain(vamogremio)
+val newList = addToChain(newList)
+val newList = addToChain(newList)
+val newList = addToChain(newList)
+val newList = addToChain(newList)
+val newList = addToChain(newList)
+
+val passouNovo = validaArray valida newList
+
+
 
 
 
@@ -133,4 +140,4 @@ in
 end
 
 
-val _ = saveToFile(newBlockList,"veeeeeeeeeeem")
+val _ = saveToFile(newList,"veeeeeeeeeeem")
