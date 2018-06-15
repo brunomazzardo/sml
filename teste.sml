@@ -116,3 +116,21 @@ val newBlockList = addToChain(vamogremio)
 val newBlockList = addToChain(newBlockList)
 val newBlockList = addToChain(newBlockList)
 val passouNovo =  validaArray valida newBlockList
+
+
+
+fun saveToFile(blockList: block list, path :string) =
+let
+  val outStream = TextIO.openOut path
+  fun helper ([]:block list) = ""
+    | helper ((x::xs):block list) = Int.toString(#hash x) ^ "," ^ Int.toString(#prevHash x) ^ ";" ^ helper(xs)
+  val list =  helper(blockList)
+  val _ = TextIO.output (outStream,list)
+  val _ = TextIO.closeOut outStream
+
+in
+ ()
+end
+
+
+val _ = saveToFile(newBlockList,"veeeeeeeeeeem")
