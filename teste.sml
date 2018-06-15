@@ -1,3 +1,17 @@
+(*  Referencias
+
+https://learnxinyminutes.com/docs/standard-ml/
+http://sml-family.org/Basis/list.html
+https://stackoverflow.com/questions/42148055/sml-how-to-append-an-element-to-a-list-in-sml
+https://stackoverflow.com/questions/19805544/sml-difference-between-type-and-datatype
+https://en.wikibooks.org/wiki/Standard_ML_Programming/Types
+http://sml-family.org/Basis/string.html
+https://www.chegg.com/homework-help/questions-and-answers/write-program-sml-reads-inputtxt-file-outputs-outputtxt-file-whether-line-pangram--put-exa-q10645053
+
+Repositorio : https://github.com/brunomazzardo/sml
+ *)
+
+
 fun hw1(inPut : string) =
 let
    val inStream = TextIO.openIn inPut
@@ -8,8 +22,16 @@ end
 
 type block = {hash :int , prevHash:int};
 
-val blockTest =  {hash = 1,prevHash = 1} : block;
+fun createHash(prevHash:int) = prevHash * prevHash
 
+
+fun createBlock(block:block) = ({hash=createHash(#hash block),prevHash=(#hash block)}:block)
+
+
+val blockTest =  {hash = 3,prevHash = 1} : block;
+
+
+val newBlock = createBlock(blockTest)
 
 val a = hw1("input.txt");
 
@@ -25,6 +47,7 @@ val listlist = List.map (fn x => (String.tokens (fn c=>c = #",") x )) list
 
 
 
+
 fun intFromString s default_i =
     Option.getOpt (Int.fromString s, default_i)
 
@@ -37,7 +60,7 @@ val vamogremio = parse listlist
 val hash = List.nth (vamogremio,0)
 
 
-fun valida (x : block ,y : block) = (#hash x) = (#prevHash y)
+fun valida (x : block ,y : block) =  (#hash y) = createHash(#hash x) andalso (#prevHash y) = (#hash x)
 
 
 fun validaArray f [] = true
@@ -47,9 +70,9 @@ fun validaArray f [] = true
 
 val passou =  validaArray valida vamogremio
 
-fun addToChain (hashValue : int,blockList : block list) = let
+fun addToChain (blockList : block list) = let
     val lastBlock = List.nth (blockList,((List.length blockList)-1))
-    val block = ({hash=hashValue,prevHash = #hash lastBlock} :block)
+    val block = createBlock(lastBlock)
     val listReverse = List.rev blockList
   in
    List.rev (block :: listReverse)
@@ -57,4 +80,4 @@ fun addToChain (hashValue : int,blockList : block list) = let
 
 
 
-val newBlockList = addToChain(1,vamogremio)
+val newBlockList = addToChain(vamogremio)
