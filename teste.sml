@@ -69,13 +69,13 @@ fun parse [] = []
  |  parse (x::xs) = ({hash=(valOf(Int.fromString(List.nth(x,0)))),prevHash=(valOf(Int.fromString(List.nth(x,1))))} : block)  :: parse xs
 
 
-val vamogremio = parse listlist
+val parsedList = parse listlist
 
 
 (*
 Teste de acesso a lista, retorna um bloco
 *)
-val hash = List.nth (vamogremio,0)
+val hash = List.nth (parsedList,0)
 
 
 
@@ -96,11 +96,13 @@ fun validaArray f [] = true
   | validaArray f (x::y::xs) = f (x,y) andalso validaArray f(y::xs)
 
 
-val passou =  validaArray valida vamogremio
+val passou =  validaArray valida parsedList
 
 
 
-
+(*
+Funcao que cria um bloco invalidado, para testar a validacao de chain
+*)
 fun createInvalidBlock(block:block) = ({hash=createHash((#hash block)-1),prevHash=(#hash block)}:block)
 
 
@@ -119,14 +121,15 @@ fun addToChain (blockList : block list) = let
 
 
 
-val newList = addToChain(vamogremio)
+val newList = addToChain(addToChain(addToChain(addToChain(addToChain(parsedList)))))
 
 
 
 val passouNovo = validaArray valida newList
 
-
-
+(*
+Funcao que salva a chain no arquivo
+*)
 fun saveToFile(blockList: block list, path :string) =
 let
   val outStream = TextIO.openOut path
