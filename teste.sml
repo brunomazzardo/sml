@@ -6,6 +6,7 @@ https://stackoverflow.com/questions/42148055/sml-how-to-append-an-element-to-a-l
 https://stackoverflow.com/questions/19805544/sml-difference-between-type-and-datatype
 https://en.wikibooks.org/wiki/Standard_ML_Programming/Types
 http://sml-family.org/Basis/string.html
+https://stackoverflow.com/questions/36527015/how-to-convert-string-to-intand-not-to-int-option-in-sml
 https://www.chegg.com/homework-help/questions-and-answers/write-program-sml-reads-inputtxt-file-outputs-outputtxt-file-whether-line-pangram--put-exa-q10645053
 
 Repositorio : https://github.com/brunomazzardo/sml
@@ -62,9 +63,10 @@ val listlist = List.map (fn x => (String.tokens (fn c=>c = #",") x )) list
 
 
 
-fun intFromString s default_i =
-    Option.getOpt (Int.fromString s, default_i)
 
+(*
+Parse de cada elemnto da lista, que e uma tupla de strings, para um objeto block, e a criacao de uma lista de blocks
+*)
 fun parse [] = []
  |  parse (x::xs) = ({hash=(valOf(Int.fromString(List.nth(x,0)))),prevHash=(valOf(Int.fromString(List.nth(x,1))))} : block)  :: parse xs
 
