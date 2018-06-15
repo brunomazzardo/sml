@@ -60,7 +60,7 @@ val vamogremio = parse listlist
 val hash = List.nth (vamogremio,0)
 
 
-fun valida (x : block ,y : block) =  (#hash y) = createHash(#hash x) andalso (#prevHash y) = (#hash x)
+fun valida (prevBlock : block ,currentBlock : block) =  (#hash currentBlock) = createHash(#hash prevBlock) andalso (#prevHash currentBlock) = (#hash prevBlock)
 
 
 fun validaArray f [] = true
@@ -81,3 +81,6 @@ fun addToChain (blockList : block list) = let
 
 
 val newBlockList = addToChain(vamogremio)
+val newBlockList = addToChain(newBlockList)
+val newBlockList = addToChain(newBlockList)
+val passou =  validaArray valida newBlockList
