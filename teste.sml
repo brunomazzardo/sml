@@ -35,3 +35,6 @@ val vamogremio = parse listlist
 
 
 val hash = List.nth (vamogremio,0)
+
+
+fun valida x y = x = y
