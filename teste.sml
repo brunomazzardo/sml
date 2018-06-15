@@ -38,3 +38,8 @@ val hash = List.nth (vamogremio,0)
 
 
 fun valida x y = x = y
+
+
+fun validaArray [] = true
+  | validaArray [x] = true
+  | validaArray x:y:xs = 
