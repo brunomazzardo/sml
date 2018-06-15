@@ -45,4 +45,16 @@ fun validaArray f [] = true
   | validaArray f (x::y::xs) = f (x,y) andalso validaArray f xs
 
 
-  val passou =  validaArray valida vamogremio
+val passou =  validaArray valida vamogremio
+
+fun addToChain (hashValue : int,blockList : block list) = let
+    val lastBlock = List.nth (blockList,((List.length blockList)-1))
+    val block = ({hash=hashValue,prevHash = #hash lastBlock} :block)
+    val listReverse = List.rev blockList
+  in
+   List.rev (block :: listReverse)
+  end
+
+
+
+val newBlockList = addToChain(1,vamogremio)
