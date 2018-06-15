@@ -82,7 +82,8 @@ val hash = List.nth (vamogremio,0)
 (*
 Funcao que valida o bloco
 *)
-fun valida (prevBlock : block ,currentBlock : block) =  (#hash currentBlock) = createHash(#hash prevBlock) andalso (#prevHash currentBlock) = (#hash prevBlock)
+fun valida (prevBlock : block ,currentBlock : block) =
+ (#hash currentBlock) = createHash(#hash prevBlock) andalso (#prevHash currentBlock) = (#hash prevBlock)
 
 
 (*
@@ -92,10 +93,15 @@ entao e uma reimplementacao, ele tambem nao para quando o primeiro da false,
 *)
 fun validaArray f [] = true
   | validaArray f [x] = true
-  | validaArray f (x::y::xs) = f (x,y) andalso validaArray f xs
+  | validaArray f (x::y::xs) = f (x,y) andalso validaArray f(y::xs)
 
 
 val passou =  validaArray valida vamogremio
+
+
+
+
+fun createInvalidBlock(block:block) = ({hash=createHash((#hash block)-1),prevHash=(#hash block)}:block)
 
 
 
@@ -114,15 +120,10 @@ fun addToChain (blockList : block list) = let
 
 
 val newList = addToChain(vamogremio)
-val newList = addToChain(newList)
-val newList = addToChain(newList)
-val newList = addToChain(newList)
-val newList = addToChain(newList)
-val newList = addToChain(newList)
+
+
 
 val passouNovo = validaArray valida newList
-
-
 
 
 
@@ -140,4 +141,4 @@ in
 end
 
 
-val _ = saveToFile(newList,"veeeeeeeeeeem")
+val _ = saveToFile(newList,"output.txt")
