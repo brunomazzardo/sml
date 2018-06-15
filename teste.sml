@@ -37,7 +37,7 @@ val vamogremio = parse listlist
 val hash = List.nth (vamogremio,0)
 
 
-fun valida (x : block ,y : block) = x = y
+fun valida (x : block ,y : block) = (#hash x) = (#prevHash y)
 
 
 fun validaArray f [] = true
